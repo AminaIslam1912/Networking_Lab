@@ -1,0 +1,133 @@
+AI Overview
+Learn more
+Client-Server Networks - Computer Science GCSE GURU
+A client-server network is a computing model where multiple clients (devices, programs) access resources and services from a central server. The server manages these resources and provides them to the clients. 
+Here's a more detailed explanation:
+Clients:
+These are the devices or programs that request information or services from the server. Examples include web browsers, email clients, or application software. 
+Server:
+This is the central computer that stores and manages the resources (like files, applications, or data) that clients need. 
+Network:
+The clients and the server are connected through a network, which can be a local area network (LAN), a wide area network (WAN), or even the internet. 
+Resource Sharing:
+The server acts as a central hub for resource sharing, allowing multiple clients to access the same data or services. 
+Centralized Management:
+Client-server networks offer the advantage of centralized management of applications and data, which simplifies administration and maintenance. 
+How it works: 
+A client sends a request to the server for a specific resource or service.
+The server receives the request and processes it.
+The server then sends the requested resource or service back to the client.
+Common examples:
+Web Browsing:
+When you visit a website, your web browser (the client) sends a request to the web server, which then sends back the website content. 
+Email:
+Email clients (like Outlook) are the clients that connect to mail servers to send and receive emails. 
+File Sharing:
+Networked drives or shared folders on a server allow multiple users to access and share files. 
+A Guide to Understanding Client-Server Network | Lenovo US
+What is a client-server network? A client-server network is a computing model in which multiple clients connect to a central serve...
+
+Lenovo
+
+What is a client-server network? | Definition from TechTarget
+A client-server network is a distributed communications architecture in which a centralized server receives and responds to reques...
+
+TechTarget
+
+Client-Server Network | Definition & Examples - Lesson - Study.com
+What Is a Client-Server Network? A client-server network is designed for end-users, called clients, to access resources such as fi...
+
+Study.com
+
+Show all
+AI responses may include mistakes.
+বাংলায়
+In English
+A client-server network is a computing model in which multiple clients connect to a central server to access resources, such as files, applications, and data. The server acts as a central hub, managing and providing services to the connected clients.
+A Guide to Understanding Client-Server Network | Lenovo US
+
+Lenovo
+https://www.lenovo.com › glossary › client-server-netw...
+About featured snippets
+•
+Feedback
+People also ask
+What is a client-server network?
+What is client and server with an example?
+What is the function of the client-server?
+ক্লায়েন্ট সার্ভার নেটওয়ার্ক কি?
+ওয়েব সার্ভার ও ক্লায়েন্ট কি?
+Feedback
+Client-Server Model
+
+GeeksforGeeks
+https://www.geeksforgeeks.org › client-server-model
+6 days ago — The Client-Server Model is a distributed application architecture that divides tasks or workloads between servers (providers of resources or ...
+What is a client-server network? | Definition from TechTarget
+
+TechTarget
+https://www.techtarget.com › searchwindowsserver › cli...
+A client-server network is a distributed communications architecture in which a centralized server receives and responds to requests for services and data ...
+What is Client-Server Network? Definition, Advantages, ...
+
+Zenarmor
+https://www.zenarmor.com › docs › network-basics › w...
+May 20, 2023 — A client-server network is a form of internet network that consists of a single central computer functioning as a server and directing ...
+Client–server model
+
+Wikipedia
+https://en.wikipedia.org › wiki › Client–server_model
+The client–server model is a distributed application structure that partitions tasks or workloads between the providers of a resource or service, ...
+Client-Server Network | Definition & Examples - Lesson
+
+Study.com
+https://study.com › learn › client-server-network-examp...
+A client-server network is designed for end-users, called clients, to access resources such as files, songs, video collections, or some other service from a ...
+What is Client-Server Network?
+How Does It Work?
+Advantages of Client-Server...
+A Guide to Understanding Client-Server Network
+
+FS.com
+https://www.fs.com › blog › a-guide-to-understanding-cl...
+Mar 14, 2024 — A client server network is a fundamental computing model that facilitates communication and resource sharing between multiple devices within a ...
+Client-servers and peer-to-peer networks - Computer ...
+
+BBC
+https://www.bbc.co.uk › guides › zvspfcw › revision
+Client-server networks are best suited to organisations with many computers, or to situations where many computers need access to the same information. Many ...
+Difference between Client-Server and Peer-to-Peer Network
+
+GeeksforGeeks
+https://www.geeksforgeeks.org › difference-between-cli...
+Aug 20, 2024 — The Client-Server model can be useful where there is the need to have centralized management and is more scalable than the Peer-to-Peer model ...
+The Ultimate Guide to Understanding Client-Server Networks
+
+CablesAndKits
+https://www.cablesandkits.com › learning-center › clien...
+A client-server network is a model where multiple devices, known as clients, connect to a central server to access resources, services, and data.
+People also search for
+client-server network vs peer-to-peer
+client-server network example
+Client-server network Diagram
+Client-server network model
+What is client and server in computer network
+Client server network disadvantages
+peer-to-peer and client-server network examples
+Client-server architecture
+1	
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Next
+Results are not personalised
+Bangladesh
+Dhaka University Campus, Dhaka - From your device
+ - Update location
+HelpSend feedbackPrivacyTerms

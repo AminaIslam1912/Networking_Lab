@@ -3,7 +3,7 @@
 import java.io.*;
 import java.net.*;
 
-public class client {
+public class client_14_36 {
     private static final String address = "10.33.26.195";  // "localhost"
     private static final int port = 5000;
    // private static final int chunk = 500;

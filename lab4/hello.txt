@@ -1,4 +1,110 @@
-yahsdlcasujd
-adjfbkaeb
-adfjnkdfbn
-zdnbkzd
+#include "stm32f4xx.h"
+#include "CLOCK.h"
+#include "SYSINIT.h"
+#include "GPIO.h"
+#include "USART.h"
+#include <stdlib.h>
+
+#define NORTH_SOUTH_RED    (1 << 0)
+#define NORTH_SOUTH_YEL    (1 << 1)
+#define NORTH_SOUTH_GRN    (1 << 2)
+#define EAST_WEST_RED      (1 << 3)
+#define EAST_WEST_YEL      (1 << 4)
+#define EAST_WEST_GRN      (1 << 5)
+
+#define NS_LOAD_LED        (1 << 6)  // PA6
+#define EW_LOAD_LED        (1 << 7)  // PA7
+
+typedef enum {
+    NORTH_SOUTH_GREEN,
+    NORTH_SOUTH_YELLOW,
+    EAST_WEST_GREEN,
+    EAST_WEST_YELLOW
+} TrafficState;
+
+void traffic_init(void) {
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN | RCC_AHB1ENR_GPIOAEN;
+
+    // PB0–PB5 as output (traffic signals)
+    GPIOB->MODER &= ~(0x3FFF);
+    GPIOB->MODER |= (0x1555);
+    GPIOB->OTYPER &= ~(0x3F);
+    GPIOB->OSPEEDR |= (0x3FFF);
+    GPIOB->PUPDR &= ~(0x3FFF);
+
+    // PA6–PA7 as output (load indicator LEDs)
+    GPIOA->MODER &= ~(0xF << 12);
+    GPIOA->MODER |=  (0x5 << 12);   // Set PA6 and PA7 as output
+    GPIOA->OTYPER &= ~(NS_LOAD_LED | EW_LOAD_LED);
+    GPIOA->OSPEEDR |=  (0xF << 12);
+    GPIOA->PUPDR &= ~(0xF << 12);
+}
+
+void set_traffic_lights(TrafficState state) {
+    GPIOB->ODR &= ~(NORTH_SOUTH_RED | NORTH_SOUTH_YEL | NORTH_SOUTH_GRN |
+                    EAST_WEST_RED | EAST_WEST_YEL | EAST_WEST_GRN);
+
+    switch (state) {
+        case NORTH_SOUTH_GREEN:
+            GPIO_WritePin(GPIOB, NORTH_SOUTH_GRN, 1);
+            GPIO_WritePin(GPIOB, EAST_WEST_RED, 1);
+            break;
+        case NORTH_SOUTH_YELLOW:
+            GPIO_WritePin(GPIOB, NORTH_SOUTH_YEL, 1);
+            GPIO_WritePin(GPIOB, EAST_WEST_RED, 1);
+            break;
+        case EAST_WEST_GREEN:
+            GPIO_WritePin(GPIOB, EAST_WEST_GRN, 1);
+            GPIO_WritePin(GPIOB, NORTH_SOUTH_RED, 1);
+            break;
+        case EAST_WEST_YELLOW:
+            GPIO_WritePin(GPIOB, EAST_WEST_YEL, 1);
+            GPIO_WritePin(GPIOB, NORTH_SOUTH_RED, 1);
+            break;
+    }
+}
+
+void simulate_random_load(uint8_t *ns_high, uint8_t *ew_high) {
+    *ns_high = (rand() % 2);  // 0 or 1
+    *ew_high = (rand() % 2);
+
+    GPIO_WritePin(GPIOA, NS_LOAD_LED, *ns_high);
+    GPIO_WritePin(GPIOA, EW_LOAD_LED, *ew_high);
+}
+
+void traffic_control(void) {
+    uint8_t ns_high = 0;
+    uint8_t ew_high = 0;
+
+    while (1) {
+        simulate_random_load(&ns_high, &ew_high);
+
+        uint32_t green_delay_ns = ns_high ? 75000 : 60000;
+        uint32_t green_delay_ew = ew_high ? 75000 : 60000;
+
+        set_traffic_lights(NORTH_SOUTH_GREEN);
+        ms_delay(green_delay_ns);
+        set_traffic_lights(NORTH_SOUTH_YELLOW);
+        ms_delay(5000);
+
+        simulate_random_load(&ns_high, &ew_high); // Update before EW signal
+        green_delay_ew = ew_high ? 75000 : 60000;
+
+        set_traffic_lights(EAST_WEST_GREEN);
+        ms_delay(green_delay_ew);
+        set_traffic_lights(EAST_WEST_YELLOW);
+        ms_delay(5000);
+    }
+}
+
+int main(void) {
+    initClock();
+    USART_Init();
+    systemInit();
+    traffic_init();
+
+    UART_SendString("STM32 Smart Traffic System Initialized\r\n");
+
+    traffic_control();
+    return 0;
+}
