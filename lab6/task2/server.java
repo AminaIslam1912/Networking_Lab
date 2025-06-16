@@ -1,6 +1,6 @@
 import java.io.*;
 import java.net.*;
-import java.util.Random;
+import java.util.*;
 
 public class server {
     public static ServerSocket serverSocket = null;
@@ -8,13 +8,12 @@ public class server {
 
     public static void main(String[] args) throws IOException {
         serverSocket = new ServerSocket(port);
-        System.out.println("Server started on port number: " + port);
+        serverSocket.setReceiveBufferSize(1024); 
+        System.out.println("The server started on port " + port);
 
         while (true) {
             Socket socket = serverSocket.accept();
-            socket.setReceiveBufferSize(1024); // Simulate receive window
-
-            System.out.println("Client connected: " + socket.getInetAddress());
+            System.out.println("Client connected: /" + socket.getInetAddress().getHostAddress());
 
             ClientHandler clientHandler = new ClientHandler(socket);
             clientHandler.start();
@@ -24,9 +23,11 @@ public class server {
 
 class ClientHandler extends Thread {
     Socket socket;
+    Map<Integer, byte[]> packetBuffer; 
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
+        this.packetBuffer = new HashMap<>();
     }
 
     @Override
@@ -37,6 +38,7 @@ class ClientHandler extends Thread {
 
             int expectedSeq = 1;
             Random rand = new Random();
+            double lossProbability = 0.1; 
 
             while (true) {
                 try {
@@ -45,35 +47,45 @@ class ClientHandler extends Thread {
                     byte[] data = new byte[len];
                     in.readFully(data);
 
-                    // Simulate packet loss
-                    if (rand.nextDouble() < 0.2) {
-                        System.out.println("Packet " + seq + " lost.");
+                    if (rand.nextDouble() < lossProbability) {
+                        System.out.println("- Packet " + seq + " not received -");
                         continue;
                     }
 
                     if (seq == expectedSeq) {
-                        System.out.println("Received Packet " + seq + ". Sending ACK " + seq);
+                        System.out.println("Received Packet " + seq  + ". Sending ACK " + seq);
+                        packetBuffer.put(seq, data);
                         expectedSeq++;
+
+                
+                        while (packetBuffer.containsKey(expectedSeq)) {
+                            expectedSeq++;
+                        }
+                        
+                        out.writeInt(expectedSeq - 1);
+                        out.flush();
                     } else {
-                        System.out.println("Received Packet " + seq + ". Out of order. Sending Duplicate ACK " + (expectedSeq - 1));
+                        System.out.println("Received Packet " + seq + ". Sending Duplicate ACK " + (expectedSeq - 1));
+                        packetBuffer.put(seq, data); 
+                        out.writeInt(expectedSeq - 1); 
+                        out.flush();
                     }
 
-                    // Send cumulative ACK
-                    out.writeInt(expectedSeq - 1);
-                    out.flush();
-
                 } catch (EOFException e) {
-                    break; // End of file transmission
+                    break; 
                 }
             }
 
             in.close();
             out.close();
             socket.close();
-            System.out.println("Connection closed with client.");
+            System.out.println("Client disconnected.");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
+
+
+
